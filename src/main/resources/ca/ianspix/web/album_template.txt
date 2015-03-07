@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+	<link rel="stylesheet" type="text/css" href="http://static.ianspix.ca/style.css">
+	<script src="http://static.ianspix.ca/jquery-2.1.3.min.js"></script>
+	<script>
+
+var IMAGE_FILES = [
+@@FILELIST
+];
+
+var IMAGE_PATH = "@@IMAGEPATH";
+var FULLSIZE_PATH = "@@FULLPATH";
+var RAW_PATH = "@@RAWPATH";
+
+var DRAG_THRESHOLD = 75;
+var ANIMATION_DURATION = 250;
+
+var currentImage = @@IMAGENUM - 1;
+var imageOffset = 0;
+var clickX = -1;
+
+function placeImage( id, imageDiv, offset )
+{
+	var image = $( id );
+
+	image.css( "margin", "0" );
+	image.offset( {
+		top: (imageDiv.height() - image.height()) / 2,
+		left: (imageDiv.width() - image.width()) / 2 + offset } );
+}
+
+function layout()
+{
+	var imageDiv = $( "#imageDiv" );
+	placeImage( "#prevImage", imageDiv, imageOffset - imageDiv.width() );
+	placeImage( "#mainImage", imageDiv, imageOffset );
+	placeImage( "#nextImage", imageDiv, imageOffset + imageDiv.width() );
+}
+
+function getPrevImage()
+{
+	return (currentImage + IMAGE_FILES.length - 1) % IMAGE_FILES.length;
+}
+
+function getNextImage()
+{
+	return (currentImage + 1) % IMAGE_FILES.length;
+}
+
+function readHash()
+{
+	var hash = window.location.hash;
+
+	if ( hash.length > 0 && hash.charAt(0) == '#' )
+	{
+		var value = parseInt( hash.substr(1) );
+		if ( !isNaN(value) && 1 <= value && value <= IMAGE_FILES.length )
+			currentImage = value - 1;
+	}
+}
+
+function resetImages()
+{
+	var imageDiv = $( "#imageDiv" );
+	imageDiv.html( 
+		"<img id=\"prevImage\" class=\"photo\" src=\"" + IMAGE_PATH + "/" + IMAGE_FILES[getPrevImage()] + "\" alt=\"" + IMAGE_FILES[getPrevImage()] + "\">" +
+		"<img id=\"mainImage\" class=\"photo\" src=\"" + IMAGE_PATH + "/" + IMAGE_FILES[currentImage] + "\" alt=\"" + IMAGE_FILES[currentImage] + "\">" +
+		"<img id=\"nextImage\" class=\"photo\" src=\"" + IMAGE_PATH + "/" + IMAGE_FILES[getNextImage()] + "\" alt=\"" + IMAGE_FILES[getNextImage()] + "\">" );
+	
+	var imageTags = $( "img" );
+
+	imageTags.on( "dragstart", function (event) { event.preventDefault(); });
+	imageTags.on( "load", layout );
+
+	$( "h1" ).text( $( "title" ).text() + " " + (currentImage + 1) + "/" + IMAGE_FILES.length );
+	
+	$( "#fullLink > a" ).attr( "href", FULLSIZE_PATH + "/" + IMAGE_FILES[currentImage] );
+	$( "#rawLink > a" ).attr( "href", RAW_PATH + "/" + IMAGE_FILES[currentImage] );
+	$( "#nextLink > a" ).attr( "href", "@@ALBUMPATH/" + (getNextImage() + 1) + "/" );
+	$( "#prevLink > a" ).attr( "href", "@@ALBUMPATH/" + (getPrevImage() + 1) + "/" );
+
+	window.location.hash = "#" + (currentImage + 1);
+
+	layout();
+}
+
+function animateImageSlide( id, imageDiv, pageOffset )
+{
+	var image = $( id );
+	image.animate( { left: (imageDiv.width() - image.width()) / 2 + imageDiv.width()*pageOffset },
+		{ duration: ANIMATION_DURATION, queue: false, complete: pageOffset == 0 ? resetImages : null } );
+}
+
+function changeImage( offset )
+{
+	currentImage = (currentImage + offset + IMAGE_FILES.length) % IMAGE_FILES.length;
+	clickX = -1;
+	imageOffset = 0;
+
+	var imageDiv = $( "#imageDiv" );
+	animateImageSlide( "#prevImage", imageDiv, -1 - offset );
+	animateImageSlide( "#mainImage", imageDiv, -offset );
+	animateImageSlide( "#nextImage", imageDiv, 1 - offset );
+}
+
+$( document ).ready( function() {
+	// Relayout on resize or when the first image loads.
+	$( window ).resize( layout );
+
+	// Button events
+	$( "#prevLink" ).click( function (event) {
+		event.preventDefault();
+		changeImage( -1 );
+	} );
+	$( "#nextLink" ).click( function (event) {
+		event.preventDefault();
+		changeImage( +1 );
+	} );
+
+	// Dragging/swiping code.
+	$( "body" ).bind( 'mousedown touchstart', function (event) {
+		var eventX = event.type.toLowerCase() === 'mousedown' ? event.pageX : event.originalEvent.touches[0].pageX;
+		clickX = eventX;
+		imageOffset = 0;
+	});
+	
+	$( "body" ).bind( 'mouseup touchend', function (event) {
+		if ( clickX > 0 )
+		{
+			var eventX = event.type.toLowerCase() === 'mouseup' ? event.pageX : event.originalEvent.changedTouches[0].pageX;
+			if ( eventX - clickX > DRAG_THRESHOLD )
+				changeImage( -1 ); // Go to previous
+			else if ( eventX - clickX < -DRAG_THRESHOLD )
+				changeImage( +1 ); // Go to next
+			else
+				changeImage( 0 ); // Slide back to current
+		}
+	});
+	
+	$( "body" ).mouseout( function (event) {
+		$( "body" ).mouseup();
+	} );
+	
+	$( "body" ).bind( 'mousemove touchmove', function (event) {
+		var eventX = event.type.toLowerCase() === 'mousemove' ? event.pageX : event.originalEvent.touches[0].pageX;
+		if ( clickX >= 0 )
+		{
+			imageOffset = eventX - clickX;
+			layout();
+		}
+	});
+
+	readHash();
+	resetImages();
+});
+
+	</script>
+	<title>@@TITLE</title>
+</head>
+
+<body>
+
+	<h1>@@TITLE @@IMAGENUM/@@IMAGECOUNT</h1>
+
+	<div id="imageDiv">
+		<img id="mainImage" class="photo" src="@@IMAGEPATH/@@IMAGEFILE" alt="@@IMAGEFILE">
+	</div>
+
+	<ul id="links">
+		<li id="fullLink"><a href="@@FULLPATH/@@IMAGEFILE" target="_blank">Full size</a></li>
+		<li id="rawLink"><a href="@@RAWPATH/@@IMAGEFILE" target="_blank">RAW</a></li>
+		<li id="prevLink"><a href="@@ALBUMPATH/@@PREVIMAGENUM/">Prev</a></li>
+		<li id="nextLink"><a href="@@ALBUMPATH/@@NEXTIMAGENUM/">Next</a></li>
+	</ul>
+
+</body>
+</html>

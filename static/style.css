@@ -1,0 +1,68 @@
+html, body {
+	height: 100%;
+	margin: 0;
+	background-color: #333;
+	font-family: 'Century Gothic', CenturyGothic, AppleGothic, sans-serif;
+}
+
+h1 {
+	margin: 0;
+	width: 100%;
+	position: fixed;
+	bottom: 30px;
+	text-align: center;
+	color: #CCC;
+	font-weight: normal;
+	font-size: 32px;
+}
+
+#imageDiv {
+	text-align: center;
+	position: fixed;
+	top: 0;
+	bottom: 70px;
+	left: 0;
+	right: 0;
+	overflow: hidden;
+}
+
+.photo {
+	max-width: 100%;
+	max-height: 100%;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+}
+
+li {
+	display: inline-block;
+}
+
+a:link,
+a:hover,
+a:visited {
+	color: #CCC;
+}
+
+#links {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	position: fixed;
+	bottom: 5px;
+	text-align: center;
+	font-size: 16px;
+}
+
+#prevLink {
+	float: left;
+	padding-left: 5px;
+}
+
+#nextLink {
+	float: right;
+	padding-right: 5px;
+}
