@@ -16,9 +16,6 @@ import com.google.inject.Singleton;
 @Singleton
 public class AlbumServlet extends HttpServlet
 {
-	// TODO Test template change
-	// TODO source code control
-	// TODO Versioning
 	// TODO don't add the hash until the photo changes
 	// TODO load JSON album config from S3 (securely)
 	// TODO Figure out of path info is app config
