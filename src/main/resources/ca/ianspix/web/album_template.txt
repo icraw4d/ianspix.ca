@@ -83,7 +83,7 @@ function resetImages()
 	$( "#nextLink > a" ).attr( "href", "@@ALBUMPATH/" + (getNextImage() + 1) + "/" );
 	$( "#prevLink > a" ).attr( "href", "@@ALBUMPATH/" + (getPrevImage() + 1) + "/" );
 
-	window.location.hash = "#" + (currentImage + 1);
+	window.location.hash = currentImage + 1 != @@IMAGENUM ? "#" + (currentImage + 1) : "";
 
 	layout();
 }

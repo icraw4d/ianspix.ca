@@ -34,7 +34,7 @@ public class AlbumHTMLRenderer
 			.replaceAll( "@@IMAGEFILE", "" + album.getImageFiles().get( imageNum - 1 ) )
 		
 			.replaceAll( "@@IMAGECOUNT", "" + imageCount )
-			.replaceAll( "@@IMAGENUM", "" + imageNum ) // TODO make sure imageNum is between 1 and album size
+			.replaceAll( "@@IMAGENUM", "" + imageNum )
 			.replaceAll( "@@PREVIMAGENUM", "" + (imageNum > 1 ? imageNum - 1 : imageCount ) )
 			.replaceAll( "@@NEXTIMAGENUM", "" + (imageNum < imageCount ? imageNum + 1 : 1 ) ) );
 	}

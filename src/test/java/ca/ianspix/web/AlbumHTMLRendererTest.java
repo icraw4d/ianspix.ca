@@ -12,23 +12,6 @@ public class AlbumHTMLRendererTest extends TestCase
 {
 	public void testIt() throws AlbumException
 	{
-		/*
-		template = template.replaceAll( "@@TITLE", album.getTitle() );
-		
-		template = template.replaceAll( "@@ALBUMPATH", fromSubdir ? ".." : "." ); 
-		template = template.replaceAll( "@@IMAGEPATH", album.getImagePath() );
-		template = template.replaceAll( "@@FULLPATH", album.getFullPath() );
-		template = template.replaceAll( "@@RAWPATH", album.getRawPath() );
-		
-		template = template.replaceAll( "@@FILELIST",  fileList.toString() );
-		template = template.replaceAll( "@@IMAGEFILE", "" + album.getImageFiles().get( imageNum ) );
-		
-		template = template.replaceAll( "@@IMAGECOUNT", "" + imageCount );
-		template = template.replaceAll( "@@IMAGENUM", "" + imageNum ); // TODO make sure imageNum is between 1 and album size
-		template = template.replaceAll( "@@PREVIMAGENUM", "" + (imageNum > 1 ? imageNum - 1 : imageCount ) ); 
-		template = template.replaceAll( "@@NEXTIMAGENUM", "" + (imageNum < imageCount ? imageNum + 1 : 1 ) ); 
-		 */
-		
 		int imageNum = 2;
 		Album album = new Album();
 		
