@@ -5,14 +5,21 @@ import java.util.List;
 
 public class Album
 {
+	private String id;
 	private String title;
-	private String password;
-	private String passwordHint;
 	private List<String> imageFiles;
-	private String imagePath;
-	private String fullPath;
-	private String rawPath;
+	private String rawExtension;
 	
+	public String getId()
+	{
+		return id;
+	}
+
+	public void setId( String id )
+	{
+		this.id = id;
+	}
+
 	public String getTitle()
 	{
 		return title;
@@ -21,26 +28,6 @@ public class Album
 	public void setTitle( String title )
 	{
 		this.title = title;
-	}
-	
-	public String getPassword()
-	{
-		return password;
-	}
-	
-	public void setPassword( String password )
-	{
-		this.password = password;
-	}
-	
-	public String getPasswordHint()
-	{
-		return passwordHint;
-	}
-	
-	public void setPasswordHint( String passwordHint )
-	{
-		this.passwordHint = passwordHint;
 	}
 	
 	public List<String> getImageFiles()
@@ -53,33 +40,13 @@ public class Album
 		this.imageFiles = imageFiles;
 	}
 
-	public String getImagePath()
+	public String getRawExtension()
 	{
-		return imagePath;
+		return rawExtension;
 	}
 
-	public void setImagePath( String imagePath )
+	public void setRawExtension( String rawExtension )
 	{
-		this.imagePath = imagePath;
-	}
-
-	public String getFullPath()
-	{
-		return fullPath;
-	}
-
-	public void setFullPath( String fullPath )
-	{
-		this.fullPath = fullPath;
-	}
-
-	public String getRawPath()
-	{
-		return rawPath;
-	}
-
-	public void setRawPath( String rawPath )
-	{
-		this.rawPath = rawPath;
+		this.rawExtension = rawExtension;
 	}
 }

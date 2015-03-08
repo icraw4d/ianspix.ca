@@ -12,10 +12,6 @@ var IMAGE_FILES = [
 @@FILELIST
 ];
 
-var IMAGE_PATH = "@@IMAGEPATH";
-var FULLSIZE_PATH = "@@FULLPATH";
-var RAW_PATH = "@@RAWPATH";
-
 var DRAG_THRESHOLD = 75;
 var ANIMATION_DURATION = 250;
 
@@ -67,9 +63,9 @@ function resetImages()
 {
 	var imageDiv = $( "#imageDiv" );
 	imageDiv.html( 
-		"<img id=\"prevImage\" class=\"photo\" src=\"" + IMAGE_PATH + "/" + IMAGE_FILES[getPrevImage()] + "\" alt=\"" + IMAGE_FILES[getPrevImage()] + "\">" +
-		"<img id=\"mainImage\" class=\"photo\" src=\"" + IMAGE_PATH + "/" + IMAGE_FILES[currentImage] + "\" alt=\"" + IMAGE_FILES[currentImage] + "\">" +
-		"<img id=\"nextImage\" class=\"photo\" src=\"" + IMAGE_PATH + "/" + IMAGE_FILES[getNextImage()] + "\" alt=\"" + IMAGE_FILES[getNextImage()] + "\">" );
+		"<img id=\"prevImage\" class=\"photo\" src=\"http://static.ianspix.ca/@@ALBUMID/image/" + IMAGE_FILES[getPrevImage()] + ".jpg\" alt=\"" + IMAGE_FILES[getPrevImage()] + "\">" +
+		"<img id=\"mainImage\" class=\"photo\" src=\"http://static.ianspix.ca/@@ALBUMID/image/" + IMAGE_FILES[currentImage] + ".jpg\" alt=\"" + IMAGE_FILES[currentImage] + "\">" +
+		"<img id=\"nextImage\" class=\"photo\" src=\"http://static.ianspix.ca/@@ALBUMID/image/" + IMAGE_FILES[getNextImage()] + ".jpg\" alt=\"" + IMAGE_FILES[getNextImage()] + "\">" );
 	
 	var imageTags = $( "img" );
 
@@ -78,8 +74,8 @@ function resetImages()
 
 	$( "h1" ).text( $( "title" ).text() + " " + (currentImage + 1) + "/" + IMAGE_FILES.length );
 	
-	$( "#fullLink > a" ).attr( "href", FULLSIZE_PATH + "/" + IMAGE_FILES[currentImage] );
-	$( "#rawLink > a" ).attr( "href", RAW_PATH + "/" + IMAGE_FILES[currentImage] );
+	$( "#fullLink > a" ).attr( "href", "http://static.ianspix.ca/@@ALBUMID/full/" + IMAGE_FILES[currentImage] + ".jpg" );
+	$( "#rawLink > a" ).attr( "href", "http://static.ianspix.ca/@@ALBUMID/raw/" + IMAGE_FILES[currentImage] + ".@@RAWEXTENSION" );
 	$( "#nextLink > a" ).attr( "href", "@@ALBUMPATH/" + (getNextImage() + 1) + "/" );
 	$( "#prevLink > a" ).attr( "href", "@@ALBUMPATH/" + (getPrevImage() + 1) + "/" );
 
@@ -167,12 +163,12 @@ $( document ).ready( function() {
 	<h1>@@TITLE @@IMAGENUM/@@IMAGECOUNT</h1>
 
 	<div id="imageDiv">
-		<img id="mainImage" class="photo" src="@@IMAGEPATH/@@IMAGEFILE" alt="@@IMAGEFILE">
+		<img id="mainImage" class="photo" src="http://static.ianspix.ca/@@ALBUMID/image/@@IMAGEFILE.jpg" alt="@@IMAGEFILE">
 	</div>
 
 	<ul id="links">
-		<li id="fullLink"><a href="@@FULLPATH/@@IMAGEFILE" target="_blank">Full size</a></li>
-		<li id="rawLink"><a href="@@RAWPATH/@@IMAGEFILE" target="_blank">RAW</a></li>
+		<li id="fullLink"><a href="http://static.ianspix.ca/@@ALBUMID/full/@@IMAGEFILE.jpg" target="_blank">Full size</a></li>
+		<li id="rawLink"><a href="http://static.ianspix.ca/@@ALBUMID/raw/@@IMAGEFILE.@@RAWEXTENSION" target="_blank">RAW</a></li>
 		<li id="prevLink"><a href="@@ALBUMPATH/@@PREVIMAGENUM/">Prev</a></li>
 		<li id="nextLink"><a href="@@ALBUMPATH/@@NEXTIMAGENUM/">Next</a></li>
 	</ul>

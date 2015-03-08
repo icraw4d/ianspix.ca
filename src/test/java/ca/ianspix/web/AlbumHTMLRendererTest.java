@@ -15,22 +15,15 @@ public class AlbumHTMLRendererTest extends TestCase
 		int imageNum = 2;
 		Album album = new Album();
 		
+		album.setId( "abc123" );
 		album.setTitle( "IansPix" );
 		
-		album.setImagePath( "http://static.ianspix.ca/abc123/image" );
-		album.setRawPath( "http://static.ianspix.ca/abc123/raw" );
-		album.setFullPath( "http://static.ianspix.ca/abc123/full" );
-		
 		List<String> imageFiles = new LinkedList<String>();
-		imageFiles.add( "img1.jpg" );
-		imageFiles.add( "img2.jpg" );
-		imageFiles.add( "img3.jpg" );
+		imageFiles.add( "img1" );
+		imageFiles.add( "img2" );
+		imageFiles.add( "img3" );
 		album.setImageFiles( imageFiles );
-
-		// TODO test password
-		album.setPassword( null );
-		album.setPasswordHint( null );
-		
+		album.setRawExtension( "dng" );
 
 		AlbumHTMLRenderer render = new AlbumHTMLRenderer();
 		
@@ -43,15 +36,11 @@ public class AlbumHTMLRendererTest extends TestCase
 		String result = out.toString();
 		
 		// Better than nothing.
+		assertTrue( result.contains( album.getId() ) );
 		assertTrue( result.contains( album.getTitle() ) );
-		assertTrue( result.contains( album.getImagePath() + "/" + album.getImageFiles().get(  imageNum - 1 ) ) );
-		assertTrue( result.contains( album.getFullPath() + "/" + album.getImageFiles().get(  imageNum - 1 ) ) );
-		assertTrue( result.contains( album.getRawPath() + "/" + album.getImageFiles().get(  imageNum - 1 ) ) );
-		
+		assertTrue( result.contains( album.getRawExtension()) );
 		for ( String file : imageFiles )
-		{
 			assertTrue( result.contains( file ) );
-		}
 	}	
 	
 }

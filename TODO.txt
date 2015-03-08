@@ -14,13 +14,13 @@ Make some albums
 
 password
 
-AWS IAM users
-
 cache
 
 better template
 
 Root page
+
+Command line deploy
 
 Hide mobile address bar (looked into it - iOS 8 behaviour isn't friendly with single screen apps)
 
