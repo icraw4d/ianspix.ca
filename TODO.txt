@@ -1,22 +1,14 @@
-load JSON album config from S3 (securely)
-
-Figure out of path info is app config
-
-Support different extension for RAW files
-
 log stuff
 
 traffic monitoring/analytics
 
-make album image file size smaller
-
 Make some albums
-
-password
 
 cache
 
-better template
+password
+
+better template system
 
 Root page
 
@@ -25,3 +17,5 @@ Command line deploy
 Hide mobile address bar (looked into it - iOS 8 behaviour isn't friendly with single screen apps)
 
 figure out how to make www.ianspix.ca forward to ianspix.ca, not the other way around
+
+move bucket name out into app config

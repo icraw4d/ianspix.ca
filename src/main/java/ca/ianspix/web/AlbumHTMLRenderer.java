@@ -1,17 +1,26 @@
 package ca.ianspix.web;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 
+import ca.ianspix.Util;
 import ca.ianspix.data.Album;
 
 public class AlbumHTMLRenderer
 {
 
 	private static final String TEMPLATE_RESOURCE = "ca/ianspix/web/album_template.txt";
+	private static final String PARAM_ALBUMID = "@@ALBUMID";
+	private static final String PARAM_TITLE = "@@TITLE";
+	private static final String PARAM_ALBUMPATH = "@@ALBUMPATH";
+	private static final String PARAM_FILELIST = "@@FILELIST";
+	private static final String PARAM_IMAGEFILE = "@@IMAGEFILE";
+	private static final String PARAM_RAWEXTENSION = "@@RAWEXTENSION";
+	private static final String PARAM_IMAGECOUNT = "@@IMAGECOUNT";
+	private static final String PARAM_IMAGENUM = "@@IMAGENUM";
+	private static final String PARAM_PREVIMAGENUM = "@@PREVIMAGENUM";
+	private static final String PARAM_NEXTIMAGENUM = "@@NEXTIMAGENUM";
 
 	public void renderAlbum( Album album, int imageNum, boolean fromSubdir, PrintWriter writer ) throws AlbumException
 	{
@@ -25,19 +34,19 @@ public class AlbumHTMLRenderer
 
 		String template = loadTemplate();
 		writer.print( template
-				.replaceAll( "@@ALBUMID", album.getId() )
-				.replaceAll( "@@TITLE", album.getTitle() )
+				.replaceAll( PARAM_ALBUMID, album.getId() )
+				.replaceAll( PARAM_TITLE, album.getTitle() )
 
-				.replaceAll( "@@ALBUMPATH", fromSubdir ? ".." : "." )
+				.replaceAll( PARAM_ALBUMPATH, fromSubdir ? ".." : "." )
 				
-				.replaceAll( "@@FILELIST", fileList.toString() )
-				.replaceAll( "@@IMAGEFILE", "" + album.getImageFiles().get( imageNum - 1 ) )
-				.replaceAll( "@@RAWEXTENSION", "" + album.getRawExtension() )
+				.replaceAll( PARAM_FILELIST, fileList.toString() )
+				.replaceAll( PARAM_IMAGEFILE, "" + album.getImageFiles().get( imageNum - 1 ) )
+				.replaceAll( PARAM_RAWEXTENSION, "" + album.getRawExtension() )
 
-				.replaceAll( "@@IMAGECOUNT", "" + imageCount )
-				.replaceAll( "@@IMAGENUM", "" + imageNum )
-				.replaceAll( "@@PREVIMAGENUM", "" + ( imageNum > 1 ? imageNum - 1 : imageCount ) )
-				.replaceAll( "@@NEXTIMAGENUM", "" + ( imageNum < imageCount ? imageNum + 1 : 1 ) ) );
+				.replaceAll( PARAM_IMAGECOUNT, "" + imageCount )
+				.replaceAll( PARAM_IMAGENUM, "" + imageNum )
+				.replaceAll( PARAM_PREVIMAGENUM, "" + ( imageNum > 1 ? imageNum - 1 : imageCount ) )
+				.replaceAll( PARAM_NEXTIMAGENUM, "" + ( imageNum < imageCount ? imageNum + 1 : 1 ) ) );
 	}
 
 	private String loadTemplate() throws AlbumException
@@ -51,7 +60,7 @@ public class AlbumHTMLRenderer
 		String template = null;
 		try
 		{
-			template = readStream( in );
+			template = Util.readStream( in );
 		}
 		catch ( IOException e )
 		{
@@ -74,15 +83,4 @@ public class AlbumHTMLRenderer
 		return template;
 	}
 
-	private static String readStream( InputStream in ) throws IOException
-	{
-		BufferedReader reader = new BufferedReader( new InputStreamReader( in ) );
-		StringBuilder sb = new StringBuilder();
-		String line;
-		while ( ( line = reader.readLine() ) != null )
-		{
-			sb.append( line + "\n" );
-		}
-		return sb.toString();
-	}
 }
