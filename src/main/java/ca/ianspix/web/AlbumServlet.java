@@ -1,6 +1,8 @@
 package ca.ianspix.web;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,7 +18,9 @@ import com.google.inject.Singleton;
 @Singleton
 public class AlbumServlet extends HttpServlet
 {	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -4501602231081925648L;
+
+	private static final Logger log = Logger.getLogger( AlbumServlet.class.getName() );
 	
 	@Inject private AlbumDatabase albumDatabase;
 
@@ -38,7 +42,7 @@ public class AlbumServlet extends HttpServlet
 		}
 		catch ( AlbumException e )
 		{
-			// TODO log this
+			log.info( "Bad album request from " + request.getRemoteAddr() + ": " + request.getPathInfo() );
 			response.sendError( HttpServletResponse.SC_NOT_FOUND );
 			return;
 		}
@@ -46,7 +50,7 @@ public class AlbumServlet extends HttpServlet
 		Album album = albumDatabase.getAlbum( pathHandler.getAlbumId() );
 		if ( album == null || pathHandler.getPhotoIndex() > album.getImageFiles().size() )
 		{
-			// TODO log this
+			log.warning( "Can't load album '" + pathHandler.getAlbumId() + "'" );
 			response.sendError( HttpServletResponse.SC_NOT_FOUND );
 			return;
 		}
@@ -60,7 +64,7 @@ public class AlbumServlet extends HttpServlet
 		}
 		catch ( AlbumException e )
 		{
-			// TODO log this
+			log.log(  Level.WARNING, "Couldn't render album HTML (album id '" + pathHandler.getAlbumId() + "')", e );
 			response.sendError( HttpServletResponse.SC_NOT_FOUND );
 			return;
 		}

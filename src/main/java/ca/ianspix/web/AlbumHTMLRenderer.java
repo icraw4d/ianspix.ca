@@ -3,12 +3,15 @@ package ca.ianspix.web;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import ca.ianspix.Util;
 import ca.ianspix.data.Album;
 
 public class AlbumHTMLRenderer
 {
+	private static final Logger log = Logger.getLogger( AlbumHTMLRenderer.class.getName() );
 
 	private static final String TEMPLATE_RESOURCE = "ca/ianspix/web/album_template.txt";
 	private static final String PARAM_ALBUMID = "@@ALBUMID";
@@ -54,7 +57,6 @@ public class AlbumHTMLRenderer
 		InputStream in = AlbumHTMLRenderer.class.getClassLoader().getResourceAsStream( TEMPLATE_RESOURCE );
 
 		if ( in == null )
-			// TODO log me
 			throw new AlbumException( "Couldn't load album template" );
 
 		String template = null;
@@ -64,7 +66,6 @@ public class AlbumHTMLRenderer
 		}
 		catch ( IOException e )
 		{
-			// TODO log me
 			throw new AlbumException( "Couldn't load album template" );
 		}
 		finally
@@ -75,7 +76,7 @@ public class AlbumHTMLRenderer
 			}
 			catch ( IOException e )
 			{
-				// TODO log me (WARNING)
+				log.log( Level.WARNING, "Exception closing input stream", e );
 			}
 			in = null;
 		}

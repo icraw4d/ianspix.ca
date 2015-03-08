@@ -1,5 +1,3 @@
-log stuff
-
 traffic monitoring/analytics
 
 Make some albums
@@ -19,3 +17,5 @@ Hide mobile address bar (looked into it - iOS 8 behaviour isn't friendly with si
 figure out how to make www.ianspix.ca forward to ianspix.ca, not the other way around
 
 move bucket name out into app config
+
+Lombok
