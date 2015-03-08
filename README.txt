@@ -10,3 +10,6 @@ For local development, set and secret using AWS CLI configuration
 
 * How to upload album content.
 * How to deploy.
+
+Google Analytics
+* Set tracking ID in private.properties (see private.properties.template)

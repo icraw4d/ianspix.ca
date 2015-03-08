@@ -1,5 +1,3 @@
-traffic monitoring/analytics
-
 Make some albums
 
 cache

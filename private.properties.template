@@ -1,0 +1,6 @@
+# A place for all the configuration I don't want to check in to github
+# copy this to a file named 'private.properties' in the project root directory and
+# provide your own values
+
+# Google Analytics Tracking ID.  Added at build time to src/main/resources/ca/ianspix/web/album_template.txt
+tracking.id=
