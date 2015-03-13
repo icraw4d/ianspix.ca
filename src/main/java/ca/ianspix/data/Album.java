@@ -7,6 +7,10 @@ public class Album
 {
 	private String id;
 	private String title;
+	
+	private String password;
+	private String passwordHint;
+	
 	private List<String> imageFiles;
 	private String rawExtension;
 	
@@ -48,5 +52,25 @@ public class Album
 	public void setRawExtension( String rawExtension )
 	{
 		this.rawExtension = rawExtension;
+	}
+
+	public String getPassword()
+	{
+		return password;
+	}
+
+	public void setPassword( String password )
+	{
+		this.password = password;
+	}
+
+	public String getPasswordHint()
+	{
+		return passwordHint;
+	}
+
+	public void setPasswordHint( String passwordHint )
+	{
+		this.passwordHint = passwordHint;
 	}
 }

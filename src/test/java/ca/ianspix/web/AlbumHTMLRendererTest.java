@@ -25,12 +25,12 @@ public class AlbumHTMLRendererTest extends TestCase
 		album.setImageFiles( imageFiles );
 		album.setRawExtension( "dng" );
 
-		AlbumHTMLRenderer render = new AlbumHTMLRenderer();
+		AlbumHTMLWriter render = new AlbumHTMLWriter();
 		
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		PrintWriter pw = new PrintWriter( out );
 		
-		render.renderAlbum( album, imageNum, true, pw );
+		render.printHTML( album, imageNum, true, pw );
 		pw.close(); // Forces flush
 		
 		String result = out.toString();
@@ -41,6 +41,7 @@ public class AlbumHTMLRendererTest extends TestCase
 		assertTrue( result.contains( album.getRawExtension()) );
 		for ( String file : imageFiles )
 			assertTrue( result.contains( file ) );
+		assertFalse( result.contains( "@@" ) );
 	}	
 	
 }

@@ -9,9 +9,9 @@ import java.util.logging.Logger;
 import ca.ianspix.Util;
 import ca.ianspix.data.Album;
 
-public class AlbumHTMLRenderer
+public class AlbumHTMLWriter
 {
-	private static final Logger log = Logger.getLogger( AlbumHTMLRenderer.class.getName() );
+	private static final Logger log = Logger.getLogger( AlbumHTMLWriter.class.getName() );
 
 	private static final String TEMPLATE_RESOURCE = "ca/ianspix/web/album_template.txt";
 	private static final String PARAM_ALBUMID = "@@ALBUMID";
@@ -25,7 +25,7 @@ public class AlbumHTMLRenderer
 	private static final String PARAM_PREVIMAGENUM = "@@PREVIMAGENUM";
 	private static final String PARAM_NEXTIMAGENUM = "@@NEXTIMAGENUM";
 
-	public void renderAlbum( Album album, int imageNum, boolean fromSubdir, PrintWriter writer ) throws AlbumException
+	public void printHTML( Album album, int imageNum, boolean fromSubdir, PrintWriter writer ) throws AlbumException
 	{
 		int imageCount = album.getImageFiles().size();
 
@@ -54,7 +54,7 @@ public class AlbumHTMLRenderer
 
 	private String loadTemplate() throws AlbumException
 	{
-		InputStream in = AlbumHTMLRenderer.class.getClassLoader().getResourceAsStream( TEMPLATE_RESOURCE );
+		InputStream in = AlbumHTMLWriter.class.getClassLoader().getResourceAsStream( TEMPLATE_RESOURCE );
 
 		if ( in == null )
 			throw new AlbumException( "Couldn't load album template" );
