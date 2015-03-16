@@ -79,7 +79,7 @@ public class AlbumServlet extends HttpServlet
 				password = getPasswordCookie( request, album.getId() );
 			}
 			
-			if ( password == null || !password.equals( album.getPassword() ) )
+			if ( !checkPassword( album.getPassword(), password ) )
 			{
 				// TODO inject this? Make it static?
 				// TODO differentiate between no password and incorrect password
@@ -118,6 +118,22 @@ public class AlbumServlet extends HttpServlet
 
 	}
 	
+	private boolean checkPassword(String expected, String provided)
+	{
+		// Forgiving password checker.  Converts both to lowercase and only compares letters.
+		
+		if ( expected == null )
+			return true;
+		
+		if ( provided == null )
+			return false;
+		
+		String expectedStripped = expected.toLowerCase().replaceAll( "[^a-z]", "" );
+		String providedStripped = provided.toLowerCase().replaceAll( "[^a-z]", "" );
+		
+		return expectedStripped.equals( providedStripped );
+	}
+
 	private String getCookieName( String albumId )
 	{
 		return PARAM_PASSWORD + albumId;
