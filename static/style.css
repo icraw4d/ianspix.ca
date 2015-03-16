@@ -16,7 +16,7 @@ h1 {
 	font-size: 32px;
 }
 
-#imageDiv, #passwordDiv {
+#imageDiv {
 	text-align: center;
 	position: fixed;
 	top: 0;
@@ -26,7 +26,12 @@ h1 {
 	overflow: hidden;
 }
 
-.photo, #passwordForm {
+#passwordDiv {
+	text-align: center;
+	color: #CCC;
+}
+
+.photo {
 	max-width: 100%;
 	max-height: 100%;
 	position: absolute;
@@ -65,4 +70,8 @@ a:visited {
 #nextLink {
 	float: right;
 	padding-right: 5px;
+}
+
+#submitButton {
+	display: none;
 }
