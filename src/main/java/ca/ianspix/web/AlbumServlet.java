@@ -22,7 +22,7 @@ public class AlbumServlet extends HttpServlet
 	private static final long serialVersionUID = -4501602231081925648L;
 
 	private static final String PARAM_PASSWORD = "password";
-	private static final int SECONDS_IN_YEAR = 60*60*24*365;
+	private static final int SECONDS_IN_YEAR = 60*60*24*365; // Arbitrary expiration time for cookies
 
 	private static final Logger log = Logger.getLogger( AlbumServlet.class.getName() );
 
@@ -32,21 +32,7 @@ public class AlbumServlet extends HttpServlet
 	@Override
 	protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
 	{
-		String password = null;
-
-		if ( request.getCookies() != null )
-		{
-			for ( Cookie cookie : request.getCookies() )
-			{
-				if ( cookie.getName().equals( PARAM_PASSWORD ) )
-				{
-					password = cookie.getValue();
-					break;
-				}
-			}
-		}
-
-		handleRequest( request, response, password );
+		handleRequest( request, response, null );
 	}
 
 	@Override
@@ -75,8 +61,6 @@ public class AlbumServlet extends HttpServlet
 			response.sendError( HttpServletResponse.SC_NOT_FOUND );
 			return;
 		}
-		
-		setCookie( request, response, pathHandler, providedPassword );
 
 		Album album = albumDatabase.getAlbum( pathHandler.getAlbumId() );
 		if ( album == null || pathHandler.getPhotoIndex() > album.getImageFiles().size() )
@@ -88,9 +72,17 @@ public class AlbumServlet extends HttpServlet
 
 		if ( album.getPassword() != null )
 		{
+			String password = providedPassword;
+			
 			if ( providedPassword == null )
 			{
+				password = getPasswordCookie( request, album.getId() );
+			}
+			
+			if ( password == null || !password.equals( album.getPassword() ) )
+			{
 				// TODO inject this? Make it static?
+				// TODO differentiate between no password and incorrect password
 				PasswordHTMLWriter html = new PasswordHTMLWriter();
 				try
 				{
@@ -103,20 +95,10 @@ public class AlbumServlet extends HttpServlet
 				}
 				return;
 			}
-			else if ( !album.getPassword().equals( providedPassword ) )
+
+			if ( providedPassword != null )
 			{
-				// TODO inject this? Make it static?
-				PasswordHTMLWriter html = new PasswordHTMLWriter();
-				try
-				{
-					html.printHTML( album, pathHandler.getPhotoIndex(), pathHandler.isSubdir(), response.getWriter() );
-				}
-				catch ( AlbumException e )
-				{
-					log.log( Level.WARNING, "Couldn't render album HTML (album id '" + pathHandler.getAlbumId() + "')", e );
-					response.sendError( HttpServletResponse.SC_NOT_FOUND );
-				}
-				return;
+				setCookie( response, album.getId(), password );
 			}
 		}
 
@@ -135,15 +117,28 @@ public class AlbumServlet extends HttpServlet
 		}
 
 	}
-
-	private void setCookie( HttpServletRequest req, HttpServletResponse resp, PathHandler pathHandler, String providedPassword )
+	
+	private String getCookieName( String albumId )
 	{
-		if ( providedPassword != null )
-		{
-			Cookie cookie = new Cookie( PARAM_PASSWORD, providedPassword );
-			cookie.setMaxAge( SECONDS_IN_YEAR );
-			cookie.setPath( req.getServletPath() + "/" + pathHandler.getAlbumId() );
-			resp.addCookie( cookie );
-		}
+		return PARAM_PASSWORD + albumId;
 	}
+	
+	private String getPasswordCookie( HttpServletRequest request, String albumId )
+	{
+		if ( request.getCookies() != null )
+			for ( Cookie cookie : request.getCookies() )
+				if ( cookie.getName().equals( getCookieName( albumId ) ) )
+					return cookie.getValue();
+
+		// Not found.
+		return null;
+	}
+
+	private void setCookie( HttpServletResponse resp, String albumId, String password )
+	{
+		Cookie cookie = new Cookie( getCookieName( albumId ), password );
+		cookie.setMaxAge( SECONDS_IN_YEAR );
+		resp.addCookie( cookie );
+	}
+
 }
