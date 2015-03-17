@@ -73,5 +73,11 @@ a:visited {
 }
 
 #submitButton {
-	display: none;
+	background:url(http://static.ianspix.ca/button.png);
+	background-size: 40px 40px;
+	background-repeat: no-repeat;
+	width:40px;
+	height:40px;
+	border: 0;
+	vertical-align: middle;
 }
