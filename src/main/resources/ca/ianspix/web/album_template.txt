@@ -72,9 +72,9 @@ function resetImages()
 {
 	var imageDiv = $( "#imageDiv" );
 	imageDiv.html( 
-		"<img id=\"prevImage\" class=\"photo\" src=\"http://static.ianspix.ca/@@ALBUMID/image/" + IMAGE_FILES[getPrevImage()] + ".jpg\" alt=\"" + IMAGE_FILES[getPrevImage()] + "\">" +
-		"<img id=\"mainImage\" class=\"photo\" src=\"http://static.ianspix.ca/@@ALBUMID/image/" + IMAGE_FILES[currentImage] + ".jpg\" alt=\"" + IMAGE_FILES[currentImage] + "\">" +
-		"<img id=\"nextImage\" class=\"photo\" src=\"http://static.ianspix.ca/@@ALBUMID/image/" + IMAGE_FILES[getNextImage()] + ".jpg\" alt=\"" + IMAGE_FILES[getNextImage()] + "\">" );
+		"<a href=\"http://static.ianspix.ca/@@ALBUMID/full/" + IMAGE_FILES[getPrevImage()] + ".jpg\" alt=\" target=\"_blank\"><img id=\"prevImage\" class=\"photo\" src=\"http://static.ianspix.ca/@@ALBUMID/image/" + IMAGE_FILES[getPrevImage()] + ".jpg\" alt=\"" + IMAGE_FILES[getPrevImage()] + "\"></a>" +
+		"<a href=\"http://static.ianspix.ca/@@ALBUMID/full/" + IMAGE_FILES[currentImage] + ".jpg\" alt=\" target=\"_blank\"><img id=\"mainImage\" class=\"photo\" src=\"http://static.ianspix.ca/@@ALBUMID/image/" + IMAGE_FILES[currentImage] + ".jpg\" alt=\"" + IMAGE_FILES[currentImage] + "\"></a>" +
+		"<a href=\"http://static.ianspix.ca/@@ALBUMID/full/" + IMAGE_FILES[getNextImage()] + ".jpg\" alt=\" target=\"_blank\"><img id=\"nextImage\" class=\"photo\" src=\"http://static.ianspix.ca/@@ALBUMID/image/" + IMAGE_FILES[getNextImage()] + ".jpg\" alt=\"" + IMAGE_FILES[getNextImage()] + "\"></a>" );
 	
 	var imageTags = $( "img" );
 
@@ -193,7 +193,7 @@ $( document ).ready( function() {
 	<h1>@@TITLE @@IMAGENUM/@@IMAGECOUNT</h1>
 
 	<div id="imageDiv">
-		<img id="mainImage" class="photo" src="http://static.ianspix.ca/@@ALBUMID/image/@@IMAGEFILE.jpg" alt="@@IMAGEFILE">
+		<a href="http://static.ianspix.ca/@@ALBUMID/full/@@IMAGEFILE.jpg" target="_blank"><img id="mainImage" class="photo" src="http://static.ianspix.ca/@@ALBUMID/image/@@IMAGEFILE.jpg" alt="@@IMAGEFILE"></a>
 	</div>
 
 	<ul id="links">

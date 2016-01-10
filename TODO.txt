@@ -1,14 +1,12 @@
-Make some albums
-
 cache
-
-password
 
 better template system
 
 Root page
 
 Command line deploy
+
+Command line album creation and upload
 
 Hide mobile address bar (looked into it - iOS 8 behaviour isn't friendly with single screen apps)
 
